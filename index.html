@@ -9,29 +9,33 @@
   </head>
   <body>
     <header>
-      <div id="top-bar">Weather Dashboard</div>
+      <div id="top-bar"><p id="font-big">Weather Dashboard</p></div>
     </header>
 
-    <section id="location">
+    <section id="current-day-weather">
+      <p id="font-big" class="text-spacing">Todays weather info</p>
+      <p id="temperature" class="text-spacing">Temperature:</p>
+      <p id="wind-speed" class="text-spacing">Windspeed:</p>
+      <p id="humidity" class="text-spacing">Humidity:</p>
+      <p id="UV index" class="text-spacing">UV Index:</p>
+
       <div id="current-location"></div>
     </section>
 
     <div id="daily-weather-container">
-        <div id="weather-day"></div>
-        <div id="weather-day"></div>
-        <div id="weather-day"></div>
-        <div id="weather-day"></div>
-        <div id="weather-day"></div>
-      </div>
+      <div id="weather-day"></div>
+      <div id="weather-day"></div>
+      <div id="weather-day"></div>
+      <div id="weather-day"></div>
+      <div id="weather-day"></div>
+    </div>
 
     <aside id="aside" class="d-flex">
-      <div>Enter a location</div>
+      <div><p id="font-big">Enter a location</p></div>
       <input type="text" placeholder="Search location" id="search-content" />
       <button id="search-btn">Search</button>
       <div id="error-message"></div>
     </aside>
-
-    
   </body>
 </html>
 

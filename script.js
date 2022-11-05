@@ -21,11 +21,9 @@ async function getLocation() {
     }
     //if not look up location API call
     else {
-       var memes = await lookUpLocation(locationInput); 
+       var weatherInfo = await lookUpLocation(locationInput); 
     
-       console.log(memes)
-
-
+       console.log(weatherInfo)
 }
 }
 
@@ -36,9 +34,17 @@ async function lookUpLocation(cityName) {
     var response = await fetch(apiURL)
     var data = await response.json()
     return data
+
+  
+}
+
+//create a function to get current date and apped to HTML
+function displayDate() {
+
 }
 
 
 
 
+//add event listener to search button
 searchBtn.addEventListener('click', getLocation);
