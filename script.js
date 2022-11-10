@@ -1,50 +1,53 @@
-weatherAPILink = 'https://openweathermap.org/forecast5';
-weatherAPIKey = 'e5a009371796c1daa39e7889609ceaf9';
+weatherAPILink = "https://openweathermap.org/forecast5";
+weather_API_Key = "e5a009371796c1daa39e7889609ceaf9";
 
+var searchBtn = document.getElementById("search-btn");
+var searchContent = document.getElementById("search-content");
+var errorMsg = document.getElementById("error-message");
 
+//function to get the entered value from the input 
+function getEnterLocation () {
+  var searchContentValue = searchContent.value;
+  console.log(searchContentValue);
 
-var searchBtn = document.getElementById('search-btn');
-var searchContent = document.getElementById('search-content');
+    //if the text is empty append in error similar to right wrong answer in quiz
 
-
-async function getLocation() {
-    //get the location that user has entered
-    var locationInput = searchContent.value;
-//console.log(locationInput)
-
-    //check if it is a valid location
-
-    //if empty display error 
-
-    if (locationInput === '') {
-        alert('please enter a valid location'); //can make this a message on page 
-    }
-    //if not look up location API call
-    else {
-       var weatherInfo = await lookUpLocation(locationInput); 
+  if (searchContentValue === '') {
     
-       console.log(weatherInfo)
+    errorMsg.textContent = 'please enter a location'; //need to set timeout for this
+
+  }
+  else {
+    //calling function to retreieve the lat/long
+      getLatLong(searchContentValue)
+  }
+
+
+ 
+ 
 }
-}
 
-
-//
-async function lookUpLocation(cityName) {
-    var apiURL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&limit=5&appid=${weatherAPIKey}`; //sort this bit 
-    var response = await fetch(apiURL)
-    var data = await response.json()
-    return data
-
+//function to geocode the location entered using apo
+function getLatLong(search)  {
+  var apiURL = `http://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=${weather_API_Key}`;
+  fetch(apiURL)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
   
-}
-
-//create a function to get current date and apped to HTML
-function displayDate() {
-
-}
+    });
+  }
 
 
 
+//retrieve the lat and long and save into vars 
 
-//add event listener to search button
-searchBtn.addEventListener('click', getLocation);
+
+
+
+
+
+searchBtn.addEventListener('click', getEnterLocation)
+searchBtn.addEventListener('click', getLatLong)
