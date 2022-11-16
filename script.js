@@ -1,5 +1,5 @@
 weatherAPILink = "https://openweathermap.org/forecast5";
-weather_API_Key = "e5a009371796c1daa39e7889609ceaf9";
+weather_API_Key = "d91f911bcf2c0f925fb6535547a5ddc9";
 
 var searchBtn = document.getElementById("search-btn");
 var searchContent = document.getElementById("search-content");
@@ -50,32 +50,39 @@ function lookUp(search) {
 
 }
 
-
-
-function getLatLong() {
+function showCurrentWeather(APIdata) {
+  const currentWeather = APIdata.current;
+  
+  const jsonWeather =JSON.stringify(APIdata);
+  console.log(jsonWeather)
 
 }
 
-//function to get the weather using lat lon 
+
+//function to get the weather passing in the lat lon from the first API call 
 function retrieveWeather(lat, lon) {
-var API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly&appid=${weather_API_Key}`
+  var API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly&appid=${weather_API_Key}`;
 
-console.log(API_URL);
+  fetch(API_URL)
+  .then(function(response){
+    return response.json();
+  })
+  .then(function(data){
+    console.log(data)
+    showCurrentWeather(data);
+     //this shows the weather data 
+  })
 
-fetch(API_URL)
-.then(function(response){
-  return response.json();
-})
-
+ 
 }
 
 function displayWeatherInfo(weatherInfo) {
-  console.log(weatherInfo)
+  console.log(weatherInfo) //this is the latlong data from the first api call just renamed and passed into this funct
 
-  retrieveWeather(weatherInfo.lat, weatherInfo.lon)
+  retrieveWeather(weatherInfo.lat, weatherInfo.lon) 
 }
 
 //retrieve the lat and long and save into vars
 
 searchBtn.addEventListener("click", getEnterLocation);
-searchBtn.addEventListener("click", getLatLong);
+searchBtn.addEventListener("click", lookUp);
