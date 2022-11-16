@@ -4,6 +4,7 @@ weather_API_Key = "e5a009371796c1daa39e7889609ceaf9";
 var searchBtn = document.getElementById("search-btn");
 var searchContent = document.getElementById("search-content");
 var errorMsg = document.getElementById("error-message");
+var appendLocation = document.getElementById("append-location");
 
 //function to get the entered value from the input
 function getEnterLocation() {
@@ -16,30 +17,51 @@ function getEnterLocation() {
     errorMsg.textContent = "please enter a location"; //need to set timeout for this
   } else {
     //calling function to retreieve the lat/long
-    getLatLong(searchContentValue);
+   
+    //getLatLong(searchContentValue);
+
+    lookUp(searchContentValue)
   }
 }
 
+
 //function to geocode the location entered using apo
-function getLatLong(search) {
+function lookUp(search) {
   var apiURL = `http://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=${weather_API_Key}`;
- 
+
   fetch(apiURL)
-    .then((response) => response.json())
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (data) {
+    let inputLocation = data[0];
+    console.log(inputLocation);
 
-    .then(data => {
+  appendLocation.textContent = data[0].name;
 
-      // saving the first retrieved location 
-      const locationOne = data[0];
-
-      console.log(locationOne);
+      //call function to add the location to local storage and append into recent search list
     
-      
-    //call function to add the location to local storage and append into recent search list 
-
-    //call function to display the weather (when you call this location can pass in the locationOne info)
+      //call function to display the weather (when you call this location can pass in the locationOne info)
+    
     });
- 
+}
+
+
+
+function getLatLong() {
+
+}
+
+//function to get the weather using lat lon 
+function retrieveWeather(lat, lon) {
+var API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly&appid=${weather_API_Key}`
+
+console.log(API_URL);
+
+fetch(API_URL)
+.then(function(response){
+  return response.json();
+})
 
 
 }
