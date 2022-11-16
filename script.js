@@ -51,10 +51,17 @@ function lookUp(search) {
 }
 
 function showCurrentWeather(APIdata) {
-  const currentWeather = APIdata.current;
   
-  const jsonWeather =JSON.stringify(APIdata);
-  console.log(jsonWeather)
+  const currentWeather = APIdata.current;
+  console.log(currentWeather)
+  
+  //const jsonWeather =JSON.stringify(APIdata);
+  //console.log(jsonWeather)
+
+  document.getElementById('temperature').textContent = `Temperature: ${currentWeather.temp}°F` //this doesn't work bcs something wrong with passing in the api data
+  document.getElementById('wind-speed').textContent = `Wind speed: ${currentWeather.wind_speed}`
+  document.getElementById('humidity').textContent = `Humidity: ${currentWeather.humidity}`
+  document.getElementById('UV-index').textContent = `UV Index: ${currentWeather.uvi}`
 
 }
 
