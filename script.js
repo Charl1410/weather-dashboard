@@ -21,6 +21,7 @@ function getEnterLocation() {
     //getLatLong(searchContentValue);
 
     lookUp(searchContentValue)
+
   }
 }
 
@@ -34,16 +35,19 @@ function lookUp(search) {
     return response.json();
   })
   .then(function (data) {
-    let inputLocation = data[0];
+    const inputLocation = data[0];
     console.log(inputLocation);
 
   appendLocation.textContent = data[0].name;
+
+    displayWeatherInfo(inputLocation)
 
       //call function to add the location to local storage and append into recent search list
     
       //call function to display the weather (when you call this location can pass in the locationOne info)
     
     });
+
 }
 
 
@@ -63,7 +67,12 @@ fetch(API_URL)
   return response.json();
 })
 
+}
 
+function displayWeatherInfo(weatherInfo) {
+  console.log(weatherInfo)
+
+  retrieveWeather(weatherInfo.lat, weatherInfo.lon)
 }
 
 //retrieve the lat and long and save into vars
