@@ -1,10 +1,12 @@
 weatherAPILink = "https://openweathermap.org/forecast5";
 weather_API_Key = "d91f911bcf2c0f925fb6535547a5ddc9";
+fiveDayForecast = 6;
 
 var searchBtn = document.getElementById("search-btn");
 var searchContent = document.getElementById("search-content");
 var errorMsg = document.getElementById("error-message");
 var appendLocation = document.getElementById("append-location");
+var country = document.getElementById('coutry');
 
 //function to get the entered value from the input
 function getEnterLocation() {
@@ -36,7 +38,7 @@ function lookUp(search) {
   })
   .then(function (data) {
     const inputLocation = data[0];
-    console.log(inputLocation);
+    //console.log(inputLocation);
 
   appendLocation.textContent = data[0].name;
 
@@ -65,6 +67,26 @@ function showCurrentWeather(APIdata) {
 
 }
 
+function displayFuture5days(APIdata) {
+  /*
+  const dailyWeather = APIdata.daily;
+  console.log(dailyWeather);
+  */
+ 
+  for(i=0; i< fiveDayForecast.length; i++) {
+    const dailyWeather = APIdata.daily[i];
+    const temp = APIdata.daily[i].temp.day;
+    const icon = APIdata.daily[i].icon;
+    
+    
+
+  }
+}
+
+
+
+
+
 
 //function to get the weather passing in the lat lon from the first API call 
 function retrieveWeather(lat, lon) {
@@ -75,8 +97,11 @@ function retrieveWeather(lat, lon) {
     return response.json();
   })
   .then(function(data){
-    console.log(data)
+    //console.log(data)
+
     showCurrentWeather(data);
+
+    displayFuture5days(data);
      //this shows the weather data 
   })
 
@@ -84,7 +109,7 @@ function retrieveWeather(lat, lon) {
 }
 
 function displayWeatherInfo(weatherInfo) {
-  console.log(weatherInfo) //this is the latlong data from the first api call just renamed and passed into this funct
+  //console.log(weatherInfo) //this is the latlong data from the first api call just renamed and passed into this funct
 
   retrieveWeather(weatherInfo.lat, weatherInfo.lon) 
 }
@@ -93,3 +118,4 @@ function displayWeatherInfo(weatherInfo) {
 
 searchBtn.addEventListener("click", getEnterLocation);
 searchBtn.addEventListener("click", lookUp);
+searchBtn/addEventListener("click", displayFuture5days)
