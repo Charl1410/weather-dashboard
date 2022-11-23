@@ -8,6 +8,7 @@ var errorMsg = document.getElementById("error-message");
 var appendLocation = document.getElementById("append-location");
 var country = document.getElementById('coutry');
 var dailyWeatherContainer = document.getElementById('daily-weather-container')
+var appendLocation = document.getElementById('location-append')
 
 //function to get the entered value from the input
 function getEnterLocation() {
@@ -25,13 +26,18 @@ function getEnterLocation() {
 
     lookUp(searchContentValue)
 
-
-
   }
 }
 
+/*
+function saveLocation() {
+  var location = searchContent.value;
+  var appendTo = appendLocation;
 
+  appendedInput = 
 
+}}
+*/
 
 //function to geocode the location entered using apo
 function lookUp(search) {
@@ -74,21 +80,27 @@ function showCurrentWeather(APIdata) {
 
 function displayFuture5days(APIdata) {
   
-  var dailyData = APIdata.daily //this works 
+  
+  var dailyData = APIdata.daily; //this works 
 
-  for(i=0; i < fiveDayForecast.length; i++) {
+  for(i=0; i < fiveDayForecast; i++) {
     var dailyWeather = dailyData[i];
-    var temp = dailyWeather.temp.day;
-    var icon = dailyWeather.icon;
-    console.log(temp) 
+    var temp = dailyData[i].temp.day;
+    var icon = dailyData[i].weather[0].icon;
+    var humidity = dailyData[i].humidity;
+    var day = new Date(dailyData[i].dt * 1000).toLocaleDateString('en-GB', { weekday: 'long' });
 
     var weatherBox = document.createElement('div');
     weatherBox.classList.add('weather-day');
   
     weatherBox.innerHTML =
-    `
-    <div> ${temp} </div>
     
+    `
+    <div> ${day} </div>
+    <div> ${"<img src=http://openweathermap.org/img/wn/"+icon+".png>"} </div>
+    <div> Temperature: </div>
+    <div> ${temp}°F </div>
+  
     `
     dailyWeatherContainer.appendChild(weatherBox);
 
