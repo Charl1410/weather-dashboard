@@ -17,12 +17,17 @@ function getEnterLocation() {
   //if the text is empty append in error similar to right wrong answer in quiz
    if (searchContentValue === "") {
     errorMsg.textContent = "please enter a location"; //set time out 
+    setTimeout(function () {
+      errorMsg.textContent = ""; //set time out 
+    }, 1000);
   } else {
 
 
     lookUp(searchContentValue);
 
     appendLiLocation();
+
+
 
   }
 }
@@ -39,12 +44,6 @@ function appendLiLocation() {
   appendLocation.appendChild(li);
 
   const savedLocations = []
-
-  var existingJSON = localStorage.getItem("cities");
-
-  if (existingJSON !== null) {
-    savedLocations = JSON.parse(existingJSON)
-  }
 
   savedLocations.push(enteredLocation);
   console.log(savedLocations);
@@ -93,7 +92,7 @@ function showCurrentWeather(APIdata) {
 
 //displays daily weather information for future 5 days 
 function displayFuture5days(APIdata) {
-  //weatherBox.innerHTML= ``; //this isnt working
+  weatherBox.innerHTML= ``; //this isnt working
   
   var dailyData = APIdata.daily; 
 
