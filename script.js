@@ -8,7 +8,6 @@ var errorMsg = document.getElementById("error-message");
 var appendLocation = document.getElementById("append-location");
 var country = document.getElementById('coutry');
 var dailyWeatherContainer = document.getElementById('daily-weather-container')
-var appendLocation = document.getElementById('location-append')
 
 //function to get the entered value from the input
 function getEnterLocation() {
@@ -16,28 +15,46 @@ function getEnterLocation() {
   console.log(searchContentValue);
 
   //if the text is empty append in error similar to right wrong answer in quiz
-
-  if (searchContentValue === "") {
-    errorMsg.textContent = "please enter a location"; //need to set timeout for this
+   if (searchContentValue === "") {
+    errorMsg.textContent = "please enter a location"; //set time out 
   } else {
-    //calling function to retreieve the lat/long
-   
-    //getLatLong(searchContentValue);
 
-    lookUp(searchContentValue)
+
+    lookUp(searchContentValue);
+
+    appendLiLocation();
 
   }
 }
 
-/*
-function saveLocation() {
-  var location = searchContent.value;
-  var appendTo = appendLocation;
+//retrieves the value of the input and append a li into the HTML
+function appendLiLocation() {
+  const enteredLocation = searchContent.value;
+  const appendLocation = document.getElementById('location-append');
 
-  appendedInput = 
+  const li = document.createElement("li");
+  li.classList.add("list-style");
+  li.textContent = enteredLocation;
+  li.addEventListener("click", lookUp); //this doesnt work yet 
+  appendLocation.appendChild(li);
 
-}}
-*/
+  const savedLocations = []
+
+  var existingJSON = localStorage.getItem("cities");
+
+  if (existingJSON !== null) {
+    savedLocations = JSON.parse(existingJSON)
+  }
+
+  savedLocations.push(enteredLocation);
+  console.log(savedLocations);
+
+  localStorage.setItem("cities", JSON.stringify(savedLocations));
+
+}
+
+
+
 
 //function to geocode the location entered using apo
 function lookUp(search) {
@@ -49,7 +66,6 @@ function lookUp(search) {
   })
   .then(function (data) {
     const inputLocation = data[0];
-    //console.log(inputLocation);
 
   appendLocation.textContent = data[0].name;
 
@@ -63,25 +79,23 @@ function lookUp(search) {
 
 }
 
+//displays current data at top 
 function showCurrentWeather(APIdata) {
   
   const currentWeather = APIdata.current;
-  //console.log(currentWeather)
   
-  //const jsonWeather =JSON.stringify(APIdata);
-  //console.log(jsonWeather)
-
-  document.getElementById('temperature').textContent = `Temperature: ${currentWeather.temp}°F`; //this doesn't work bcs something wrong with passing in the api data
-  document.getElementById('wind-speed').textContent = `Wind speed: ${currentWeather.wind_speed}`;
+  document.getElementById('temperature').textContent = `Temperature: ${currentWeather.temp}°F`; 
+  document.getElementById('wind-speed').textContent = `Wind speed: ${currentWeather.wind_speed} Mph`;
   document.getElementById('humidity').textContent = `Humidity: ${currentWeather.humidity}`;
   document.getElementById('UV-index').textContent = `UV Index: ${currentWeather.uvi}`;
 
 }
 
+//displays daily weather information for future 5 days 
 function displayFuture5days(APIdata) {
+  //weatherBox.innerHTML= ``; //this isnt working
   
-  
-  var dailyData = APIdata.daily; //this works 
+  var dailyData = APIdata.daily; 
 
   for(i=0; i < fiveDayForecast; i++) {
     var dailyWeather = dailyData[i];
@@ -107,11 +121,6 @@ function displayFuture5days(APIdata) {
   }
 }
 
-
-
-
-
-
 //function to get the weather passing in the lat lon from the first API call 
 function retrieveWeather(lat, lon) {
   var API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly&appid=${weather_API_Key}`;
@@ -121,12 +130,10 @@ function retrieveWeather(lat, lon) {
     return response.json();
   })
   .then(function(data){
-    //console.log(data)
 
     showCurrentWeather(data);
 
     displayFuture5days(data);
-     //this shows the weather data 
   })
 
  
