@@ -22,7 +22,6 @@ function getEnterLocation() {
     }, 1000);
   } else {
 
-
     lookUp(searchContentValue);
 
     appendLiLocation();
@@ -92,8 +91,8 @@ function showCurrentWeather(APIdata) {
 
 //displays daily weather information for future 5 days 
 function displayFuture5days(APIdata) {
-  weatherBox.innerHTML= ``; //this isnt working
-  
+  dailyWeatherContainer.innerHTML= ''; 
+
   var dailyData = APIdata.daily; 
 
   for(i=0; i < fiveDayForecast; i++) {
@@ -105,7 +104,7 @@ function displayFuture5days(APIdata) {
 
     var weatherBox = document.createElement('div');
     weatherBox.classList.add('weather-day');
-  
+
     weatherBox.innerHTML =
     
     `
