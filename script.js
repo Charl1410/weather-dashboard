@@ -26,6 +26,10 @@ function getEnterLocation() {
     appendLiLocation();
 
     localStorageSave();
+
+    loadSavedLocations()
+
+    
   }
 }
 
@@ -53,6 +57,23 @@ function localStorageSave() {
 
   localStorage.setItem("cities", JSON.stringify(storedData));
 }
+
+function loadSavedLocations() { console.log('working load saved location')
+  if (localStorage.getItem("cities") !== null) {
+    var savedCities = JSON.parse(localStorage.getItem("cities"));
+    console.log("saved cities " +  savedCities);
+  }
+  
+  appendLocation = document.getElementById('location-append');
+  savedCities.forEach(function (city){
+    var li = document.createElement('li');
+    li.classList.add("list-style");
+    li.textContent = city;
+
+
+  })
+}
+
 
 //function to geocode the location entered using apo
 function lookUp(search) {
