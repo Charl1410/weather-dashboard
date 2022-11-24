@@ -9,7 +9,10 @@ var appendLocation = document.getElementById("append-location");
 var country = document.getElementById("coutry");
 var dailyWeatherContainer = document.getElementById("daily-weather-container");
 
+loadSavedLocations();
+
 //function to get the entered value from the input
+
 function getEnterLocation() {
   var searchContentValue = searchContent.value;
   console.log(searchContentValue);
@@ -26,9 +29,6 @@ function getEnterLocation() {
     appendLiLocation();
 
     localStorageSave();
-
-    loadSavedLocations()
-
     
   }
 }
@@ -58,10 +58,10 @@ function localStorageSave() {
   localStorage.setItem("cities", JSON.stringify(storedData));
 }
 
-function loadSavedLocations() { console.log('working load saved location')
+
+function loadSavedLocations() { 
   if (localStorage.getItem("cities") !== null) {
     var savedCities = JSON.parse(localStorage.getItem("cities"));
-    console.log("saved cities " +  savedCities);
   }
   
   appendLocation = document.getElementById('location-append');
@@ -70,9 +70,12 @@ function loadSavedLocations() { console.log('working load saved location')
     li.classList.add("list-style");
     li.textContent = city;
 
+    appendLocation.appendChild(li);
+
 
   })
 }
+
 
 
 //function to geocode the location entered using apo
