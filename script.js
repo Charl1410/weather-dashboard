@@ -9,11 +9,13 @@ var appendLocation = document.getElementById("append-location");
 var country = document.getElementById("coutry");
 var dailyWeatherContainer = document.getElementById("daily-weather-container");
 
+
 loadSavedLocations();
 
 //function to get the entered value from the input
 
-function getEnterLocation() {
+function getEnterLocation() { 
+  console.log('getEnterLocation runs')
   var searchContentValue = searchContent.value;
   console.log(searchContentValue);
 
@@ -25,55 +27,69 @@ function getEnterLocation() {
     }, 1000);
   } else {
     lookUp(searchContentValue);
-
-    appendLiLocation();
-
     localStorageSave();
-    
   }
 }
 
-//retrieves the value of the input and append a li into the HTML
-function appendLiLocation() {
-  const enteredLocation = searchContent.value;
-  const appendLocation = document.getElementById("location-append");
-
-  const li = document.createElement("li");
-  li.classList.add("list-style");
-  li.textContent = enteredLocation;
-  li.addEventListener("click", lookUp); //this doesnt work yet
-  appendLocation.appendChild(li);
+function retrievesButtonText() {
+  console.log('--retrieve--')
+  // var buttonClick = li.textContent;
+  // console.log('text on button' + buttonClick)
 }
 
 function localStorageSave() {
   var savedLocation = document.getElementById("search-content").value;
 
+  
   if (localStorage.getItem("cities") == null) {
-    var localStore = localStorage.setItem( "cities",'[]');
+      localStorage.setItem( "cities",'[]');
   }
-
+  
   var storedData = JSON.parse(localStorage.getItem("cities"));
-  storedData.push(savedLocation);
-
+  //we need to add saved lcoation if stored data is empty 
+  if (storedData.length === 0) {
+    storedData.push(savedLocation)
+  }
+  //else we need to check whether the location entered is already in local storage 
+  else {
+    var isCityInStore = false;
+    //looping through stored data to see if savedLocation is anywhere in that list (storedData)
+    storedData.forEach(function(city) {
+      if (city === savedLocation) {
+        isCityInStore = true;
+      }
+    })
+    //if the saved location was found in storedData do nothing, if false so not in storedData then pushing onto storedData 
+    if (isCityInStore === false) {
+      storedData.push(savedLocation)
+    }
+  }
+ 
   localStorage.setItem("cities", JSON.stringify(storedData));
+  console.log('pre --loadSavedLocation--')
+  loadSavedLocations()
 }
 
 
 function loadSavedLocations() { 
+  console.log('--loadSavedLocations--')
+  var savedCities = []
   if (localStorage.getItem("cities") !== null) {
     var savedCities = JSON.parse(localStorage.getItem("cities"));
   }
-  
-  appendLocation = document.getElementById('location-append');
+  console.log('savedCities ' + savedCities)
+  appendLocation = document.getElementById('location-append'); 
   savedCities.forEach(function (city){
+    console.log("city " + city)
     var li = document.createElement('li');
     li.classList.add("list-style");
+    li.setAttribute('id', 'city-name')
     li.textContent = city;
-
     appendLocation.appendChild(li);
-
-
+    
   })
+  //everything is in the ul but then it changes and is not being displayed in the elements 
+  console.log("apend location" + document.getElementById("location-append").textContent)
 }
 
 
@@ -88,14 +104,9 @@ function lookUp(search) {
     })
     .then(function (data) {
       const inputLocation = data[0];
-
       appendLocation.textContent = data[0].name;
-
       displayWeatherInfo(inputLocation);
 
-      //call function to add the location to local storage and append into recent search list
-
-      //call function to display the weather (when you call this location can pass in the locationOne info)
     });
 }
 
@@ -173,3 +184,8 @@ function displayWeatherInfo(weatherInfo) {
 
 searchBtn.addEventListener("click", getEnterLocation);
 searchBtn.addEventListener("click", lookUp);
+var liButton = document.getElementById('city-name');
+
+liButton.addEventListener("click", retrievesButtonText);
+
+
