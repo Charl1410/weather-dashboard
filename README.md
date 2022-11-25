@@ -16,4 +16,8 @@ THEN I am again presented with current and future conditions for that city
 ```
 
 ## Screenshots 
+![](https://github.com/Charl1410/weather-dashboard/blob/f47d4ae0187bd7e2f8580a1431d5aad6e51b6cb9/Screenshots/Image%201.png)
+![](https://github.com/Charl1410/weather-dashboard/blob/f47d4ae0187bd7e2f8580a1431d5aad6e51b6cb9/Screenshots/Image%202.png)
 
+## Deployed URL
+https://charl1410.github.io/weather-dashboard/
