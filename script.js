@@ -17,7 +17,6 @@ function liOnClick() {
 var liButton = document.querySelectorAll('#city-name');
   liButton.forEach(function(item) {
     item.onclick = function(e) {
-     console.log(this.innerText); // this returns clicked li's value
      lookUp(this.innerText)
   }
 });
@@ -26,9 +25,7 @@ var liButton = document.querySelectorAll('#city-name');
 //function to get the entered value from the input
 
 function getEnterLocation() { 
-  console.log('getEnterLocation runs')
   var searchContentValue = searchContent.value;
-  console.log(searchContentValue);
 
   //if the text is empty append in error similar to right wrong answer in quiz
   if (searchContentValue === "") {
@@ -70,7 +67,6 @@ function localStorageSave() {
   }
  
   localStorage.setItem("cities", JSON.stringify(storedData));
-  console.log('pre --loadSavedLocation--')
   loadSavedLocations()
 }
 
