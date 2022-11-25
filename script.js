@@ -13,6 +13,7 @@ var dailyWeatherContainer = document.getElementById("daily-weather-container");
 loadSavedLocations();
 
 //takes the content from saved buttons and searches the locations once clicked 
+function liOnClick() {
 var liButton = document.querySelectorAll('#city-name');
   liButton.forEach(function(item) {
     item.onclick = function(e) {
@@ -20,6 +21,7 @@ var liButton = document.querySelectorAll('#city-name');
      lookUp(this.innerText)
   }
 });
+}
 
 //function to get the entered value from the input
 
@@ -86,13 +88,15 @@ function loadSavedLocations() {
     li.setAttribute('id', 'city-name')
     li.textContent = city;
     appendLocation.appendChild(li);
+//allows the appended items to be clicked to revsit weather from previously searched locations 
+liOnClick()
     
   })
 }
 
 
 
-//function to geocode the location entered using apo
+//function to geocode the location entered using api and sets the searched for location in HTML as current searched location 
 function lookUp(search) {
   var apiURL = `http://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=${weather_API_Key}`;
 
@@ -102,7 +106,7 @@ function lookUp(search) {
     })
     .then(function (data) {
       const inputLocation = data[0];
-      displayLocation.textContent = data[0].name; //TODO fix variable naming 
+      displayLocation.textContent = data[0].name; 
       displayWeatherInfo(inputLocation);
 
     });
