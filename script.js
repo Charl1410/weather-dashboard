@@ -1,8 +1,6 @@
 weatherAPILink = "https://openweathermap.org/forecast5";
 weather_API_Key = "d91f911bcf2c0f925fb6535547a5ddc9";
-fiveDayForecast = 5;
-
-
+fiveDayForecast = 6;
 
 var searchBtn = document.getElementById("search-btn");
 var searchContent = document.getElementById("search-content");
@@ -11,8 +9,10 @@ var displayLocation = document.getElementById("append-location");
 var country = document.getElementById("coutry");
 var dailyWeatherContainer = document.getElementById("daily-weather-container");
 
+//loads in saved locations from local storage and append them as buttons
 loadSavedLocations();
 
+//takes the content from saved buttons and searches the locations once clicked 
 var liButton = document.querySelectorAll('#city-name');
   liButton.forEach(function(item) {
     item.onclick = function(e) {
@@ -39,13 +39,10 @@ function getEnterLocation() {
     localStorageSave();
   }
 }
-
-
-
+//takes content from search to save to local storage 
 function localStorageSave() {
   var savedLocation = document.getElementById("search-content").value;
-
-  
+//checks if there is existing local storage, if not then creates an empty string 
   if (localStorage.getItem("cities") == null) {
       localStorage.setItem( "cities",'[]');
   }
@@ -77,16 +74,13 @@ function localStorageSave() {
 
 
 function loadSavedLocations() { 
-  console.log('--loadSavedLocations--')
   var savedCities = []
   if (localStorage.getItem("cities") !== null) {
     savedCities = JSON.parse(localStorage.getItem("cities"));
   }
-  console.log('savedCities ' + savedCities)
   appendLocation = document.getElementById('location-append'); 
   appendLocation.innerHTML = '';
   savedCities.forEach(function (city){
-    console.log("city " + city)
     var li = document.createElement('li');
     li.classList.add("list-style");
     li.setAttribute('id', 'city-name')
@@ -94,8 +88,6 @@ function loadSavedLocations() {
     appendLocation.appendChild(li);
     
   })
-  //everything is in the ul but then it changes and is not being displayed in the elements 
-  console.log("apend location" + document.getElementById("location-append").textContent)
 }
 
 
@@ -120,18 +112,10 @@ function lookUp(search) {
 function showCurrentWeather(APIdata) {
   const currentWeather = APIdata.current;
 
-  document.getElementById(
-    "temperature"
-  ).textContent = `Temperature: ${currentWeather.temp}°F`;
-  document.getElementById(
-    "wind-speed"
-  ).textContent = `Wind speed: ${currentWeather.wind_speed} Mph`;
-  document.getElementById(
-    "humidity"
-  ).textContent = `Humidity: ${currentWeather.humidity}`;
-  document.getElementById(
-    "UV-index"
-  ).textContent = `UV Index: ${currentWeather.uvi}`;
+  document.getElementById("temperature").textContent = `Temperature: ${currentWeather.temp}°F`;
+  document.getElementById("wind-speed").textContent = `Wind speed: ${currentWeather.wind_speed} Mph`;
+  document.getElementById("humidity").textContent = `Humidity: ${currentWeather.humidity}`;
+  document.getElementById("UV-index").textContent = `UV Index: ${currentWeather.uvi}`;
 }
 
 //clear previous searches then displays daily weather information for future 5 days
@@ -140,7 +124,7 @@ function displayFuture5days(APIdata) {
 
   var dailyData = APIdata.daily;
 
-  for (i = 0; i < fiveDayForecast; i++) {
+  for (i = 1; i < fiveDayForecast; i++) {
     var dailyWeather = dailyData[i];
     var temp = dailyData[i].temp.day;
     var icon = dailyData[i].weather[0].icon;
@@ -179,17 +163,13 @@ function retrieveWeather(lat, lon) {
       displayFuture5days(data);
     });
 }
-
+//passes in lat and long to from the api call to display weather
 function displayWeatherInfo(weatherInfo) {
-  //console.log(weatherInfo) //this is the latlong data from the first api call just renamed and passed into this funct
 
   retrieveWeather(weatherInfo.lat, weatherInfo.lon);
 }
 
-//retrieve the lat and long and save into vars
-
 searchBtn.addEventListener("click", getEnterLocation);
 searchBtn.addEventListener("click", lookUp);
-//liButton.addEventListener("click", retrievesButtonText);
 
 
