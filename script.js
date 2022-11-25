@@ -72,7 +72,7 @@ function localStorageSave() {
   loadSavedLocations()
 }
 
-
+//loads in previously searched locations by creating li for each location in local storage 
 function loadSavedLocations() { 
   var savedCities = []
   if (localStorage.getItem("cities") !== null) {
