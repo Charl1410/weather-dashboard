@@ -2,15 +2,24 @@ weatherAPILink = "https://openweathermap.org/forecast5";
 weather_API_Key = "d91f911bcf2c0f925fb6535547a5ddc9";
 fiveDayForecast = 5;
 
+
+
 var searchBtn = document.getElementById("search-btn");
 var searchContent = document.getElementById("search-content");
 var errorMsg = document.getElementById("error-message");
-var appendLocation = document.getElementById("append-location");
+var displayLocation = document.getElementById("append-location");
 var country = document.getElementById("coutry");
 var dailyWeatherContainer = document.getElementById("daily-weather-container");
 
-
 loadSavedLocations();
+
+var liButton = document.querySelectorAll('#city-name');
+  liButton.forEach(function(item) {
+    item.onclick = function(e) {
+     console.log(this.innerText); // this returns clicked li's value
+     lookUp(this.innerText)
+  }
+});
 
 //function to get the entered value from the input
 
@@ -31,11 +40,7 @@ function getEnterLocation() {
   }
 }
 
-function retrievesButtonText() {
-  console.log('--retrieve--')
-  // var buttonClick = li.textContent;
-  // console.log('text on button' + buttonClick)
-}
+
 
 function localStorageSave() {
   var savedLocation = document.getElementById("search-content").value;
@@ -75,10 +80,11 @@ function loadSavedLocations() {
   console.log('--loadSavedLocations--')
   var savedCities = []
   if (localStorage.getItem("cities") !== null) {
-    var savedCities = JSON.parse(localStorage.getItem("cities"));
+    savedCities = JSON.parse(localStorage.getItem("cities"));
   }
   console.log('savedCities ' + savedCities)
   appendLocation = document.getElementById('location-append'); 
+  appendLocation.innerHTML = '';
   savedCities.forEach(function (city){
     console.log("city " + city)
     var li = document.createElement('li');
@@ -104,7 +110,7 @@ function lookUp(search) {
     })
     .then(function (data) {
       const inputLocation = data[0];
-      appendLocation.textContent = data[0].name;
+      displayLocation.textContent = data[0].name; //TODO fix variable naming 
       displayWeatherInfo(inputLocation);
 
     });
@@ -184,8 +190,6 @@ function displayWeatherInfo(weatherInfo) {
 
 searchBtn.addEventListener("click", getEnterLocation);
 searchBtn.addEventListener("click", lookUp);
-var liButton = document.getElementById('city-name');
-
-liButton.addEventListener("click", retrievesButtonText);
+//liButton.addEventListener("click", retrievesButtonText);
 
 
