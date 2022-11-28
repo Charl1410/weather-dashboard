@@ -1,6 +1,6 @@
-weatherAPILink = "https://openweathermap.org/forecast5";
-weather_API_Key = "d91f911bcf2c0f925fb6535547a5ddc9";
-fiveDayForecast = 6;
+var weatherAPILink = "https://openweathermap.org/forecast5";
+var weather_API_Key = "d91f911bcf2c0f925fb6535547a5ddc9";
+var fiveDayForecast = 6;
 
 var searchBtn = document.getElementById("search-btn");
 var searchContent = document.getElementById("search-content");
@@ -94,7 +94,7 @@ liOnClick()
 
 //function to geocode the location entered using api and sets the searched for location in HTML as current searched location 
 function lookUp(search) {
-  var apiURL = `http://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=${weather_API_Key}`;
+  var apiURL = `https://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=${weather_API_Key}`;
 
   fetch(apiURL)
     .then(function (response) {
